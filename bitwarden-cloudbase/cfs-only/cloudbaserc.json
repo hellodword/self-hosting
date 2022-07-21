@@ -1,0 +1,38 @@
+{
+  "version": "2.0",
+  "envId": "{{env.ENV_ID}}",
+  "framework": {
+    "name": "bitwarden",
+    "plugins": {
+      "client": {
+        "use": "@cloudbase/framework-plugin-container",
+        "inputs": {
+          "serviceName": "bitwarden",
+          "servicePath": "/",
+          "uploadType": "image",
+          "containerPort": 80,
+          "imageInfo": {
+            "imageUrl": "vaultwarden/server:latest"
+          },
+          "envVariables": {
+            "WEB_VAULT_ENABLED": "false",
+            "WEBSOCKET_ENABLED": "false",
+            "ICON_SERVICE": "internal",
+            "DISABLE_ICON_DOWNLOAD": "true"
+          },
+          "volumeMounts": {
+            "/data": "bitwarden-cfs"
+          }
+        }
+      }
+    },
+    "requirement": {
+      "addons": [
+        {
+          "type": "CFS",
+          "name": "bitwarden-cfs"
+        }
+      ]
+    }
+  }
+}

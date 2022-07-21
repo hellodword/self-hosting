@@ -1,0 +1,12 @@
+.vscode
+.idea
+.env*
+
+tests
+tests/*
+
+assets
+assets/*
+
+main
+*.zip
