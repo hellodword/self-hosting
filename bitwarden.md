@@ -23,57 +23,7 @@
 6. [云联网](https://console.cloud.tencent.com/vpc/ccn) - 管理 - 路由表 - 启用轻量应用服务器对应路由
 
 
-### 腾讯云对象存储
-
-- ~~[创建自定义策略](https://console.cloud.tencent.com/cam/policy/createV2) - `空白模板` - `bitwarden-cos-writeonly`~~
-    > resource 的文档是错的，uin 无效
-    > uid 也就是 appid 在 [账号信息](https://console.cloud.tencent.com/developer) 中
-
-    ```json
-    {
-        "version": "2.0",
-        "statement": [
-            {
-                "effect": "allow",
-                "action": [
-                    "cos:ListParts",
-                    "cos:PostObject",
-                    "cos:PutObject*",
-                    "cos:InitiateMultipartUpload",
-                    "cos:UploadPart",
-                    "cos:UploadPartCopy",
-                    "cos:CompleteMultipartUpload",
-                    "cos:AbortMultipartUpload",
-                    "cos:ListMultipartUploads"
-                ],
-                "resource": "qcs::cos:ap-shanghai:uid/123456:name-of-cos/*"
-            }
-        ]
-    }
-    ```
-
-1. [创建新用户](https://console.cloud.tencent.com/cam/user/create?systemType=FastCreateV2) - 不授权不关联
-2. [对象存储 - 存储桶列表](https://console.cloud.tencent.com/cos/bucket) - `创建存储桶` - `私有` - 复制 `访问域名`
-3. `权限管理` - `存储桶访问权限` - `添加用户` - `数据写入`
-4. `基础配置` - `生命周期`
-5. 可购买资源包
-
-
-### 阿里云对象存储
-
-1. [RAM 访问控制 - 创建权限策略](https://ram.console.aliyun.com/policies/new) - `对象存储` - `写操作` - `oss:PutObject` - 指定 Bucket - Object 为 *
-2. [创建用户](https://ram.console.aliyun.com/users/new) - 复制 `AccessKey ID` `AccessKey Key`
-3. [用户页面](https://ram.console.aliyun.com/users) - `添加权限` - 自定义策略
-4. [对象存储 - Bucket 列表](https://oss.console.aliyun.com/bucket) - `创建 Bucket` - `私有` - 复制 `Endpoint（地域节点）` 和 `Bucket 域名`
-5. `基础设置` - `生命周期`
-
-
-### AWS S3
-
-1. [Create bucket](https://s3.console.aws.amazon.com/s3/bucket/create?region=ap-southeast-1) 
-2. [Create Policy](https://ap-southeast-1.console.aws.amazon.com/iam/home#/policies$new?step=edit) - `S3` - `PutObject` - `Specific ARN`
-3. [IAM - Add User](https://ap-southeast-1.console.aws.amazon.com/iam/home#/users$new?step=details) - `Access key - Programmatic access` - `Use a permissions boundary to control the maximum user permissions`
-
+---
 ### 云函数自动备份 CFS/TDSQL-C 到对象存储 [^scf-backup-database]
 
 > 不完全信任 TDSQL-C 自带的备份/CFS 自带的快照，所以通过多家服务商的对象存储做额外的备份，备份不需要加密[^bitwarden-zero-knowledge]
@@ -95,6 +45,7 @@
 7. `文件系统` - `启用` - `/mnt`
   > `（用户ID: 10000 | 用户组ID：10000 | 文件系统ID：cfs-a | 挂载点ID：cfs-b | 本地目录：/mnt/ | 远端目录：/）`
 8. 测试和定时器触发环境有所不同，定时器触发时 `/tmp` 内的文件一定程度上可以复用
+9. 添加 API 网关触发器，配置超时 180，作为主动触发备份的途径
 
 ---
 ### 挂载 CFS 到轻量应用服务器
@@ -109,9 +60,6 @@
     sudo umount /bitwarden
     ```
 
-
-
-
 ---
 ## 手动修复
 
@@ -122,7 +70,6 @@
     sudo mv mnt/* /bitwarden/
     sudo umount /bitwarden
     ```
-
 
 ---
 ## ~~轻量应用服务器运行~~
@@ -135,7 +82,7 @@
     ```sh
     curl -fsSL https://get.docker.com -o get-docker.sh
     sudo sh get-docker.sh --mirror Aliyun
-    sudo docker pull vaultwarden/server:1.25.1
+    sudo docker pull vaultwarden/server:latest
 
     sudo docker run --name bitwarden \
         --restart=always \
@@ -145,7 +92,7 @@
         -e DISABLE_ICON_DOWNLOAD=true \
         -p 8000:80 -v /bitwarden:/data \
         -d \
-        vaultwarden/server:1.25.1
+        vaultwarden/server:latest
     ```
 4. [新建云开发](https://console.cloud.tencent.com/tcb/env/index?action=CreateEnv) - `空白模版`
 

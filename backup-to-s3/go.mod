@@ -1,4 +1,4 @@
-module scf
+module backup-to-s3
 
 go 1.18
 

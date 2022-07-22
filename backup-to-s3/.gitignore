@@ -1,0 +1,10 @@
+main
+main.zip
+.env*
+/s3uploader
+
+bin
+!rclone.conf
+
+rclone.dev.conf
+*.zip

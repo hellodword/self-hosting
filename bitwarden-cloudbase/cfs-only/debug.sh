@@ -8,4 +8,4 @@ sudo docker run --rm --name bitwarden \
     -e ICON_SERVICE=internal \
     -e DISABLE_ICON_DOWNLOAD=true \
     -p 8888:80 -v $(pwd)/tests/mnt:/data \
-    vaultwarden/server:1.25.1
+    vaultwarden/server:latest
