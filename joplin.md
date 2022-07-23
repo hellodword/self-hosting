@@ -20,7 +20,7 @@
     ```
 
     ```sh
-    0  1,8,12,16,20,22 * * * rclone --config /path/to/rclone.conf -vv sync cos:joplin oss:joplin >> ~/.joplin.log 2>&1
+    0  1,8,12,16,20,22 * * * echo >> ~/.joplin.log && echo >> ~/.bark.log && rclone --config /path/to/rclone.conf -vv sync cos:joplin oss:joplin >> ~/.joplin.log 2>&1 && env NOTIFY_TOKEN= NOTIFY_URL_1= NOTIFY_URL_2= bash /path/to/notify.sh "joplin-sync-to-oss" "joplin-sync-to-oss" "ok" >> ~/.bark.log 2>&1 || env NOTIFY_TOKEN= NOTIFY_URL_1= NOTIFY_URL_2= bash /path/to/notify.sh "joplin-sync" "joplin-sync-to-oss" "fail" "minuet" >> ~/.bark.log 2>&1
 
-    20 1,8,12,16,20,22 * * * rclone --config /path/to/rclone.conf -vv sync cos:joplin aws:joplin >> ~/.joplin.log 2>&1
+    20 1,8,12,16,20,22 * * * echo >> ~/.joplin.log && echo >> ~/.bark.log && rclone --config /path/to/rclone.conf -vv sync cos:joplin aws:joplin >> ~/.joplin.log 2>&1 && env NOTIFY_TOKEN= NOTIFY_URL_1= NOTIFY_URL_2= bash /path/to/notify.sh "joplin-sync-to-aws" "joplin-sync-to-aws" "ok" >> ~/.bark.log 2>&1 || env NOTIFY_TOKEN= NOTIFY_URL_1= NOTIFY_URL_2= bash /path/to/notify.sh "joplin-sync" "joplin-sync-to-aws" "fail" "minuet" >> ~/.bark.log 2>&1
     ```

@@ -31,6 +31,10 @@
 1. [Serverless - 函数服务](https://console.cloud.tencent.com/scf/list) - 新建
 2. `从头开始` - `事件函数` - `运行环境 Go 1` - `在线编辑` - 编译文件名为 main 然后压缩 zip 上传
 3. `触发器配置` - `定时触发` - `每天` [^scf-cron]
+    ```
+    // 东八区每天 0:40 和 12:40	
+    0 40 0,12 * * * *
+    ```
 4. 创建后，编辑 - `内存` `64MB` - `执行超时时间` `60秒`
 5. `异步调用` - `重试次数`
     ```json
@@ -58,6 +62,15 @@
     
     # 取消挂载
     sudo umount /bitwarden
+    ```
+
+---
+### 保持 CFS 为挂载状态
+
+1. [挂载 CFS 到轻量应用服务器](#挂载-cfs-到轻量应用服务器)
+2. cron
+    ```sh
+    */5 * * * * ls /bitwarden/db.sqlite3 || mount -t nfs -o vers=4.0,noresvport 10.0.1.2:/ /bitwarden
     ```
 
 ---
