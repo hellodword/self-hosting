@@ -7,5 +7,5 @@ sudo docker run --rm --name bitwarden \
     -e WEBSOCKET_ENABLED=false \
     -e ICON_SERVICE=internal \
     -e DISABLE_ICON_DOWNLOAD=true \
-    -p 8888:80 -v $(pwd)/tests/mnt:/data \
+    -p 8888:80 -v $(pwd)/tests/bitwarden:/data \
     vaultwarden/server:latest

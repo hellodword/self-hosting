@@ -24,7 +24,7 @@
 
 
 ---
-### 云函数自动备份 CFS/TDSQL-C 到对象存储 [^scf-backup-database]
+### ~~云函数自动备份 CFS/TDSQL-C 到对象存储 [^scf-backup-database]~~
 
 > 不完全信任 TDSQL-C 自带的备份/CFS 自带的快照，所以通过多家服务商的对象存储做额外的备份，备份不需要加密[^bitwarden-zero-knowledge]
 
@@ -46,8 +46,8 @@
     }
     ```
 6. `私有网络` - VPC 可以选择 Cloudbase 部署的 bitwarden 所在的 VPC
-7. `文件系统` - `启用` - `/mnt`
-  > `（用户ID: 10000 | 用户组ID：10000 | 文件系统ID：cfs-a | 挂载点ID：cfs-b | 本地目录：/mnt/ | 远端目录：/）`
+7. `文件系统` - `启用` - `/mnt/bitwarden`
+  > `（用户ID: 10000 | 用户组ID：10000 | 文件系统ID：cfs-a | 挂载点ID：cfs-b | 本地目录：/mnt/bitwarden | 远端目录：/）`
 8. 测试和定时器触发环境有所不同，定时器触发时 `/tmp` 内的文件一定程度上可以复用
 9. 添加 API 网关触发器，配置超时 180，作为主动触发备份的途径
 
@@ -57,21 +57,39 @@
 1. 云联网 - 轻量服务器内网互联 - 同意 - 路由表启用
 2. 挂载
     ```sh
-    sudo mkdir -p /bitwarden
-    sudo mount -t nfs -o vers=4.0,noresvport 10.0.1.2:/ /bitwarden
+    sudo mkdir -p /mnt/bitwarden
+    sudo mount -t nfs -o vers=4.0,noresvport 10.0.1.2:/ /mnt/bitwarden
     
     # 取消挂载
-    sudo umount /bitwarden
+    sudo umount /mnt/bitwarden
     ```
 
 ---
 ### 保持 CFS 为挂载状态
 
+> 未验证有效性
+
 1. [挂载 CFS 到轻量应用服务器](#挂载-cfs-到轻量应用服务器)
 2. cron
     ```sh
-    */5 * * * * ls /bitwarden/db.sqlite3 || mount -t nfs -o vers=4.0,noresvport 10.0.1.2:/ /bitwarden
+    */5 * * * * ls /mnt/bitwarden/db.sqlite3 || mount -t nfs -o vers=4.0,noresvport 10.0.1.2:/ /mnt/bitwarden
     ```
+
+---
+### 定期备份
+
+> inotify-tools 对 CFS 无效
+
+```sh
+40 1,8,10,12,14,16,18,20,22 * * * . /path/to/.env && . /path/to/notify/.env && bash /path/to/bitwarden-cfs.sh >> ~/.bitwarden.log 2>&1 && bash /path/to/notify.sh "bitwarden-cfs-backup" "bitwarden-cfs-backup" "ok" >> ~/.bark.log 2>&1 || bash /path/to/notify.sh "bitwarden-cfs-backup" "bitwarden-cfs-backup" "fail" "minuet" >> ~/.bark.log 2>&1
+```
+
+---
+### 保持 cloudbase 活跃
+
+```sh
+*/5 * * * * curl -s https://<name>.<region>.app.tcloudbase.com/
+```
 
 ---
 ## 手动修复
@@ -80,8 +98,8 @@
 2. [挂载 CFS 到轻量应用服务器](#挂载-cfs-到轻量应用服务器)
 3. 复制文件
     ```sh
-    sudo mv mnt/* /bitwarden/
-    sudo umount /bitwarden
+    sudo mv bitwarden/* /mnt/bitwarden/
+    sudo umount /mnt/bitwarden
     ```
 
 ---
@@ -103,7 +121,7 @@
         -e WEBSOCKET_ENABLED=false \
         -e ICON_SERVICE=internal \
         -e DISABLE_ICON_DOWNLOAD=true \
-        -p 8000:80 -v /bitwarden:/data \
+        -p 8000:80 -v /mnt/bitwarden:/data \
         -d \
         vaultwarden/server:latest
     ```
