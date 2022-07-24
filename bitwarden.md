@@ -11,7 +11,7 @@
 1. [TDSQL-C - 集群列表](https://console.cloud.tencent.com/cynosdb/mysql) - 管理 - 自带备份管理
 2. [TDSQL-C - 集群列表](https://console.cloud.tencent.com/cynosdb/mysql) - 登录 - 可以手动导出
 
-### ~~云联网~~ [^tencent-cloud-lighthouse-tdsql-c]
+### 云联网 [^tencent-cloud-lighthouse-tdsql-c]
 
 
 1. [安全组](https://console.cloud.tencent.com/vpc/securitygroup) - 新建，开放 `TCP:3306` 给指定内网网段
@@ -25,6 +25,8 @@
 
 ---
 ### ~~云函数自动备份 CFS/TDSQL-C 到对象存储 [^scf-backup-database]~~
+
+> 云函数计费改变，所以冻结了
 
 > 不完全信任 TDSQL-C 自带的备份/CFS 自带的快照，所以通过多家服务商的对象存储做额外的备份，备份不需要加密[^bitwarden-zero-knowledge]
 
@@ -101,6 +103,13 @@
     sudo mv bitwarden/* /mnt/bitwarden/
     sudo umount /mnt/bitwarden
     ```
+
+---
+## 主动备份
+
+> cloudbase 也有云函数，就算冻结了 scf，这里的云函数也依然可以运行，是否计费有待观察
+> 所以可以在这里添加一个云函数，添加 HTTP 触发，云函数内通过云联网通知轻量云服务器，运行备份脚本
+
 
 ---
 ## ~~轻量应用服务器运行~~

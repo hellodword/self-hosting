@@ -1,28 +1,17 @@
 package main
 
 import (
+	"backup-to-s3/common"
 	"context"
 	"fmt"
-	"github.com/pkg/errors"
 	"github.com/tencentyun/scf-go-lib/cloudfunction"
+	"net/http"
 	"net/url"
-	"os/exec"
 	"time"
 )
 
-func execCommand(command string) (string, error) {
-	output, err := exec.Command("bash", "-c",
-		fmt.Sprintf("%s 2>&1", command),
-	).Output()
-
-	if err != nil {
-		err = errors.Wrap(err, "output "+string(output))
-	}
-	return string(output), err
-}
-
 func notify(group, title, desp, sound string) (string, error) {
-	output, err := execCommand(fmt.Sprintf(`bash ./notify.sh "%s" "%s" "%s" "%s" 2>&1`,
+	output, err := common.ExecCommand(fmt.Sprintf(`bash ./notify.sh "%s" "%s" "%s" "%s" 2>&1`,
 		url.QueryEscape(group),
 		url.QueryEscape(title),
 		url.QueryEscape(desp),
@@ -35,8 +24,9 @@ func notify(group, title, desp, sound string) (string, error) {
 }
 
 func backup() error {
+	http.Get("")
 	{
-		_, err := execCommand("bash ./bitwarden-cfs.sh")
+		_, err := common.ExecCommand("bash ./bitwarden-cfs.sh 2>&1")
 		if err != nil {
 			return err
 		}

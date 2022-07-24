@@ -8,7 +8,7 @@ GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags "-s -w -buildi
 
 GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags "-s -w -buildid=" -o ./main ./cmd/scf
 
-zip main.zip main s3uploader bitwarden-cfs.sh notify.sh
+zip -j main.zip main s3uploader bitwarden-cfs.sh ../notify/notify.sh
 
 rm main
 rm s3uploader
