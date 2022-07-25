@@ -83,7 +83,7 @@
 > inotify-tools 对 CFS 无效
 
 ```sh
-40 1,8,10,12,14,16,18,20,22 * * * . /path/to/.env && . /path/to/notify/.env && bash /path/to/bitwarden-cfs.sh >> ~/.bitwarden.log 2>&1 && bash /path/to/notify.sh "bitwarden-cfs-backup" "bitwarden-cfs-backup" "ok" >> ~/.bark.log 2>&1 || bash /path/to/notify.sh "bitwarden-cfs-backup" "bitwarden-cfs-backup" "fail" "minuet" >> ~/.bark.log 2>&1
+40 1,8,10,12,14,16,18,20,22 * * * bash bitwarden-cfs.sh >> ~/.bitwarden.log 2>&1 && bash notify.sh "bitwarden-cfs-backup" "bitwarden-cfs-backup" "ok" "silence" || bash notify.sh "bitwarden-cfs-backup" "bitwarden-cfs-backup" "fail" "minuet"
 ```
 
 ---

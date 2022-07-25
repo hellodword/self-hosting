@@ -54,7 +54,7 @@ func hello(ctx context.Context, event DefineEvent) (string, error) {
 	notify("bw-scf-backup",
 		"bw-scf-backup",
 		fmt.Sprintf("ok %s %d", t.Format("2006-01-02 15:04:05"), time.Since(t)/time.Millisecond),
-		"",
+		"silence",
 	)
 
 	return fmt.Sprintf("ok %s %d", t.Format("2006-01-02 15:04:05"), time.Since(t)/time.Millisecond), nil

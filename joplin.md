@@ -14,13 +14,7 @@
 
 - [x] 备份 cos 到 oss
     ```sh
-    rclone --config /path/to/rclone.conf -vv sync joplin_cos:joplin joplin_oss:joplin
+    5  0,8-23 * * * (echo; rclone --config rclone.conf -vv sync joplin_cos:$JOPLIN_COS_S3_BUCKET joplin_oss:$JOPLIN_OSS_S3_BUCKET 2>&1) >> ~/.joplin.log && bash notify.sh "joplin-sync" "joplin-sync-to-oss" "ok" "silence" || bash notify.sh "joplin-sync" "joplin-sync-to-oss" "fail" "minuet"
 
-    rclone --config /path/to/rclone.conf -vv sync joplin_cos:joplin joplin_aws:joplin
-    ```
-
-    ```sh
-    0  1,8,12,16,20,22 * * * . /path/to/notify/.env && echo >> ~/.joplin.log && echo >> ~/.bark.log && rclone --config /path/to/rclone.conf -vv sync joplin_cos:joplin joplin_oss:joplin >> ~/.joplin.log 2>&1 && bash /path/to/notify.sh "joplin-sync-to-oss" "joplin-sync-to-oss" "ok" >> ~/.bark.log 2>&1 || bash /path/to/notify.sh "joplin-sync" "joplin-sync-to-oss" "fail" "minuet" >> ~/.bark.log 2>&1
-
-    20 1,8,12,16,20,22 * * * . /path/to/notify/.env && echo >> ~/.joplin.log && echo >> ~/.bark.log && rclone --config /path/to/rclone.conf -vv sync joplin_cos:joplin joplin_aws:joplin >> ~/.joplin.log 2>&1 && bash /path/to/notify.sh "joplin-sync-to-aws" "joplin-sync-to-aws" "ok" >> ~/.bark.log 2>&1 || bash /path/to/notify.sh "joplin-sync" "joplin-sync-to-aws" "fail" "minuet" >> ~/.bark.log 2>&1
+    10 0,8-23 * * * (echo; rclone --config rclone.conf -vv sync joplin_cos:$JOPLIN_COS_S3_BUCKET joplin_aws:$JOPLIN_AWS_S3_BUCKET 2>&1) >> ~/.joplin.log && bash notify.sh "joplin-sync" "joplin-sync-to-aws" "ok" "silence" || bash notify.sh "joplin-sync" "joplin-sync-to-aws" "fail" "minuet"
     ```

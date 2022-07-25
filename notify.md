@@ -17,5 +17,5 @@
 
 
 ```sh
-0,15,30,45 * * * * echo >> ~/.bark.log && env NOTIFY_URL_1= NOTIFY_URL_2= bash /path/to/notify-wakeup.sh >> ~/.bark.log 2>&1
+0,15,30,45 * * * * bash notify-wakeup.sh
 ```

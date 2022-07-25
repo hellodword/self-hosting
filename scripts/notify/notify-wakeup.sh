@@ -1,7 +1,13 @@
 #!/bin/bash
 
-NOTIFY_URL="${NOTIFY_URL_1}"
+set -e
 
+SCRIPT_DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
+cd $SCRIPT_DIR
+
+. .env
+
+NOTIFY_URL="${NOTIFY_URL_1}"
 day=$(date +"%d")
 if [ $(($day%2)) == 0 ] ; then
   NOTIFY_URL="${NOTIFY_URL_2}"
