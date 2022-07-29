@@ -19,3 +19,15 @@
 ```sh
 0,15,30,45 * * * * bash notify-wakeup.sh
 ```
+
+
+## 本地
+
+> 一些场景下不需要服务器
+
+```sh
+sudo docker run --restart always --name bark -p 127.0.0.1:8080:8080 -e BARK_DEVICE_TOKEN= -e BARK_KEY= -d finab/bark-server bark-server -serverless
+```
+
+> 或者 curl 实现
+
