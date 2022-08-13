@@ -2,6 +2,11 @@
 
 set -e
 
+SCRIPT_DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
+cd $SCRIPT_DIR
+
+. .env
+
 if [ -z "${DEVICE_TOKEN}" ]; then
     echo "DEVICE_TOKEN"
     exit 1
@@ -35,6 +40,13 @@ title="$2"
 desp="$3"
 sound="$4"
 
+# desp=$(echo "$desp" | sed ':a;N;$!ba;s/\r//g')
+# desp=$(echo "$desp" | sed ':a;N;$!ba;s/\n/\\n/g')
+# desp=$(echo "$desp" | sed 's/\"/\\"/g')
+
+desp="${desp:${#desp}<4000?0:-4000}"
+desp=$(echo "$desp" | jq -Rsa .)
+
 if [ -z "${sound}" ]; then
     sound="1107"
 else
@@ -46,4 +58,4 @@ curl --header "apns-topic: $TOPIC" \
      --header "apns-push-type: alert" \
      --header "authorization: bearer $AUTHENTICATION_TOKEN" \
      --http2 "https://${APNS_HOST_NAME}/3/device/${DEVICE_TOKEN}" \
-     --data "{\"aps\":{\"alert\":{\"body\":\"${desp}\",\"title\":\"${title}\"},\"category\":\"myNotificationCategory\",\"mutable-content\":1,\"sound\":\"${sound}\",\"thread-id\":\"${group}\"},\"badge\":\"1\",\"group\":\"${group}\",\"isarchive\":\"1\"}"
+     --data '{"aps":{"alert":{"body":'"${desp}"',"title":"'"${title}"'"},"category":"myNotificationCategory","mutable-content":1,"sound":"'"${sound}"'","thread-id":"'"${group}"'"},"badge":"1","group":"'"${group}"'","isarchive":"1"}'

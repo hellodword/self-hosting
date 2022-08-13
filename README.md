@@ -43,6 +43,6 @@
 
 > 云服务商的 API 虽然功能更完整，但为了理清步骤，我选择记录控制台操作
 
-1. [`bitwarden_rs`](./bitwarden.md)
-2. [`joplin`](./joplin.md)
+1. [`bitwarden_rs`](./bitwarden)
+2. [`joplin`](./joplin)
 3. nextcloud
