@@ -30,7 +30,7 @@
 
 ### inotify
 
-> [inotifywait backup](../inotify/README.md#inotifywait-backup)
+> [inotifywait backup](../backup/README.md#inotifywait-backup)
 
 ### cron
 

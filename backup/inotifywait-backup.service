@@ -1,6 +1,6 @@
 [Service]
 DynamicUser=true
-ExecStart=bash /path/to/inotify-backup.sh
+ExecStart=bash /path/to/inotify.sh
 
 [Install]
 WantedBy=multi-user.target
