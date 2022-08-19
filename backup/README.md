@@ -9,7 +9,7 @@
     while true; do
         inotifywait -e moved_to,create,delete,modify -r /bitwarden/
         # backup script
-        output="$(bash /path/to/bitwarden-tar.sh 2>&1)" || exit_code=$?
+        output="$(bash /path/to/bitwarden-tar.sh inotify 2>&1)" || exit_code=$?
         if [ "$exit_code" != "" ]; then
             echo "tar  $output"
             # notify
