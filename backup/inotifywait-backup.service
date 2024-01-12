@@ -1,6 +1,39 @@
 [Service]
 DynamicUser=true
-ExecStart=bash /path/to/inotify.sh
+StateDirectory=inotifywait-backup
+# for curl
+Environment=HOME=/var/lib/inotifywait-backup
+ExecStart=bash /usr/local/etc/backup/inotify.sh
+
+# NoNewPrivileges=true
+# Restart=on-failure
+# RestartPreventExitStatus=23
+# RestrictNamespaces=true
+# RestrictAddressFamilies=AF_INET
+# DevicePolicy=strict
+# DeviceAllow=/dev/null rw
+# DeviceAllow=/dev/net/tun rw
+# PrivateDevices=true
+# PrivateUsers=true
+# PrivateTmp=true
+# ProtectClock=true
+# ProtectControlGroups=true
+# ProtectHome=true
+# ProtectKernelLogs=true
+# ProtectKernelTunables=true
+# ProtectHostname=true
+# MemoryDenyWriteExecute=true
+# LockPersonality=true
+# RestrictRealtime=true
+# UMask=0077
+# SystemCallArchitectures=native
+# SystemCallFilter=@network-io
+# SystemCallFilter=@system-service
+# SystemCallFilter=~@keyring
+# SystemCallFilter=~@resources
+# SystemCallFilter=~@privileged
+# RemoveIPC=true
+# RestrictSUIDSGID=true
 
 [Install]
 WantedBy=multi-user.target
