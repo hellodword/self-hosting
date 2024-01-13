@@ -3,7 +3,7 @@ DynamicUser=true
 StateDirectory=inotifywait-backup
 # for curl
 Environment=HOME=/var/lib/inotifywait-backup
-ExecStart=bash /usr/local/etc/backup/inotify.sh
+ExecStart=/usr/local/etc/backup/inotify.sh
 
 # NoNewPrivileges=true
 # Restart=on-failure
