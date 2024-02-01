@@ -20,9 +20,11 @@
         -p 127.0.0.1:8080:80 -v /bitwarden:/data \
         -d \
         vaultwarden/server:<version>
+
+    sudo apt install resolvconf nginx jq iptables-persistent rclone sqlite3 inotify-tools
     ```
 
-2. EC2 会分配一个域名，用 [cloudflare workers 反代](./bitwarden-reverse-proxy.js)，实现多个域名支持，而且避免解析，防止未来 Cloudflare 出现解析泄露。
+2. ~~EC2 会分配一个域名，用 [cloudflare workers 反代](./bitwarden-reverse-proxy.js)，实现多个域名支持，而且避免解析，防止未来 Cloudflare 出现解析泄露。~~ 现在 IPv6 only，没有 IPv4 那样的 public DNS。
 
 
 ---

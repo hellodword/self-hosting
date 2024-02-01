@@ -13,7 +13,14 @@ async function handleRequest(request) {
 
     request.headers.set('bw', BW_HEADER)
 
-    return fetch('http://' + BW_HOST +
+    let host = BW_HOST;
+    let hosts = url.hostname.split(":")[0].split(".").slice(-2);
+    if (hosts.length === 2) {
+        host += ".";
+        host += hosts.join('.');
+    }
+
+    return fetch('http://' + host +
         url.pathname.replace(new RegExp(`^\/${BW_OBS}`), ''),
         {
             method: request.method,

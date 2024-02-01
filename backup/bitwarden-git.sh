@@ -23,6 +23,11 @@ git status
 # git init
 # git config user.name bitwarden-backup
 # git config user.email backup@bitwarden.com
+# # restore
+# # sudo cp -r ./bitwarden /var/lib/private/inotifywait-backup/
+# # sudo systemd-run --pty -p DynamicUser=true -p Environment="PATH=$PATH" -p StateDirectory=inotifywait-backup bash
+# # > id
+# # sudo chown -R 123:123 /var/lib/private/inotifywait-backup/bitwarden
 
 ls /bitwarden/db.sqlite3
 sqlite3 /bitwarden/db.sqlite3 '.backup /tmp/bitwarden.sqlite3'
